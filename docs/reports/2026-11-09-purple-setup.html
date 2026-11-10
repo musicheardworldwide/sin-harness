@@ -20,7 +20,7 @@
 <p><strong>In one paragraph:</strong> Wes forked DeepSeek Harness (DSH) as sin-harness to build Purple Harness. This window ran it in a hardened Docker container on creature (web UI on loopback port 3080), wrote the <code>purple-setup</code> skill that builds Purple in 8 phases each ending in a proof, copied it into the container workspace where the running container reads it, and registered the repo as an estate project so Sin shows a sin-harness page with a "local (tailnet only)" link to Purple's UI. The link only opens once the UI is served on the tailnet (Needs Wes).</p>
 
 <h2>Needs Wes</h2>
-<ul><li>Serve Purple's UI on the tailnet so Sin's link opens: <code>tailscale serve --bg --https=3080 http://127.0.0.1:3080</code> (t:ph01). The agent's attempt was refused by the permission check.</li></ul>
+<ul><li>Serve Purple's UI on the tailnet so Sin's link opens: tailnet HTTPS on port 3080, proxied to the container's loopback port 3080 (one <code>tailscale serve</code> line, in TASKS.md) (t:ph01). The agent's attempt was refused by the permission check.</li></ul>
 
 <h2>What changed</h2>
 <ul>
