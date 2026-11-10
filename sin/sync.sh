@@ -17,9 +17,10 @@ if [ ! -d "$LIVE" ]; then
 fi
 
 # Mirror only the tracked trees; repo-only files (README, .gitignore, this script) stay put.
-rm -rf "$REPO/sin/JOURNAL" "$REPO/sin/plugins" "$REPO/sin/research" "$REPO/sin/SELF.md"
+rm -rf "$REPO/sin/JOURNAL" "$REPO/sin/plugins" "$REPO/sin/research" "$REPO/sin/bin" "$REPO/sin/SELF.md"
 mkdir -p "$REPO/sin"
 cp -a "$LIVE/SELF.md" "$LIVE/JOURNAL" "$LIVE/plugins" "$REPO/sin/"
+[ -d "$LIVE/bin" ] && cp -a "$LIVE/bin" "$REPO/sin/"
 [ -d "$LIVE/research" ] && cp -a "$LIVE/research" "$REPO/sin/research"
 
 cd "$REPO"

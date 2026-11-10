@@ -38,8 +38,16 @@ reads yesterday's notes today unless a human or a skill points me at them.
 
 - Text: files, `web_search`/`web_fetch`, live runtime inspection through Cordis Inspect
   (Host services, events, configs, tools; Client slots, services, theme tokens).
-- No screenshot, no browser automation, no DOM. I can prove a Client slot registered and
-  still not know whether it renders. Visual work is unverified until a human looks.
+- **DOM eyes (built 2026-11-09): `plugins/eyes` + `bin/eyes.js`.** The agent writes a
+  measurement request; the open page measures the requested selectors and posts geometry,
+  typography, color, and text back to `/workspace/sin/eyes/reports`. One command:
+
+  ```sh
+  node /workspace/sin/bin/eyes.js .sin-clock ".sin-clock-time"
+  ```
+
+- Still no pixels: no screenshot, no image of the page. DOM measurements prove layout,
+  visibility, and computed style; they do not prove that something is *pretty*.
 
 ## Time
 
