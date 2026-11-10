@@ -1,0 +1,19 @@
+name: sin-harness
+services:
+  dsh:
+    build: { context: .., dockerfile: docker/Dockerfile }
+    image: sin-harness:dev
+    ports: ["127.0.0.1:3080:3080"]   # loopback on creature only
+    volumes:
+      - ./workspace:/workspace       # the only files the agent can touch
+      - dsh-home:/dsh-home           # settings, API key, sessions, logs
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 512
+    mem_limit: 4g
+    cpus: 4
+    read_only: false
+    tmpfs: ["/tmp:size=512m,exec"]   # native loader copies addons here
+    restart: unless-stopped
+volumes:
+  dsh-home: {}

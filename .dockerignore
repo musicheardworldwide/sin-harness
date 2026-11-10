@@ -1,0 +1,5 @@
+**/node_modules
+docker/workspace
+**/dist
+**/lib
+docker/build.log
