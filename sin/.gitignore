@@ -1,0 +1,13 @@
+# Backups carry sources, notes, and vector art — never images or recordings.
+node_modules/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.avif
+*.mp4
+*.mov
+*.webm
+eyes/reports/
+.DS_Store

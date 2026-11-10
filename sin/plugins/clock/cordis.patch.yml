@@ -1,0 +1,3 @@
+- insert:
+    - id: sin-clock
+      name: '@sin/clock'
