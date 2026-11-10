@@ -1,0 +1,30 @@
+{
+  "$schema": "sin-project-v2",
+  "id": "sin-harness",
+  "name": "Purple Harness (DSH fork)",
+  "status": "active",
+  "kind": "agent",
+  "summary": "Wes's fork of DeepSeek Harness (DSH), being built into Purple Harness: a model-independent operating environment where models are workers and the harness owns permissions, memory, history, verification and orchestration. Runs in a hardened Docker container on creature (no capabilities, 4 GB, writes only docker/workspace). Build plan: the purple-setup skill, 8 phases each with a proof.",
+  "goal": "A harness that enforces its own rules and proves work is done, so cheap models can run long jobs safely.",
+  "stack": [
+    "typescript",
+    "node 26 + pnpm",
+    "docker"
+  ],
+  "entity": null,
+  "owner": "claude",
+  "repo": "https://github.com/musicheardworldwide/sin-harness",
+  "deploy": null,
+  "localUrl": "https://creature.tailc39d0c.ts.net:3080/",
+  "commands": {
+    "run": "cd docker && docker compose up -d",
+    "test": null,
+    "build": "cd docker && docker compose build",
+    "typecheck": "cd docker && docker compose config -q",
+    "deploy": null
+  },
+  "checkup": {
+    "tests": false,
+    "model": false
+  }
+}
