@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sin-harness: Docker sandbox, purple-setup skill, Sin project page — debrief 2026-11-09</title>
+<style>
+  :root { --bg:#fff; --fg:#1b1b1b; --muted:#666; --line:#ddd; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141414; --fg:#eee; --muted:#aaa; --line:#333; } }
+  body { background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; max-width:46rem; margin:0 auto; padding:16px; }
+  h1 { font-size:1.4rem; } h2 { font-size:1.1rem; margin-top:1.6rem; border-top:1px solid var(--line); padding-top:.8rem; }
+  table { border-collapse:collapse; width:100%; } td, th { border-bottom:1px solid var(--line); padding:.3rem .4rem; text-align:left; }
+  .muted { color:var(--muted); }
+</style>
+</head>
+<body>
+<h1>sin-harness: Docker sandbox, purple-setup skill, Sin project page</h1>
+<p class="muted">debrief/purple-setup → master · 3 commits on top of origin/master · 2026-11-09 · creature</p>
+
+<p><strong>In one paragraph:</strong> Wes forked DeepSeek Harness (DSH) as sin-harness to build Purple Harness. This window ran it in a hardened Docker container on creature (web UI on loopback port 3080), wrote the <code>purple-setup</code> skill that builds Purple in 8 phases each ending in a proof, copied it into the container workspace where the running container reads it, and registered the repo as an estate project so Sin shows a sin-harness page with a "local (tailnet only)" link to Purple's UI. The link only opens once the UI is served on the tailnet (Needs Wes).</p>
+
+<h2>Needs Wes</h2>
+<ul><li>Serve Purple's UI on the tailnet so Sin's link opens: <code>tailscale serve --bg --https=3080 http://127.0.0.1:3080</code> (t:ph01). The agent's attempt was refused by the permission check.</li></ul>
+
+<h2>What changed</h2>
+<ul>
+<li><code>docker/</code> (327775ca02): Dockerfile (source build, pnpm 11.28.5 via npm), compose.yml (all capabilities dropped, no new privileges, 512 pids, 4 GB, 4 CPUs, writes only <code>docker/workspace</code> and a home volume, UI bound to creature loopback), entrypoint.sh, README.md.</li>
+<li><code>.agents/skills/purple-setup/</code> (38eee0fe65): SKILL.md plus <code>phases/0-seams.md</code> … <code>7-observability.md</code>. Order: seams, governance, continuity, verification, agents, execution, intelligence, observability. Progress file <code>purple/STATE.md</code>; governance files mounted read-only so the model cannot edit what governs it.</li>
+<li><code>project.json</code>, <code>TASKS.md</code> (8076c040a6): estate registration; <code>localUrl</code> is Purple's tailnet URL, shown by Sin as "local (tailnet only)".</li>
+<li>Outside the repo: a <code>sin-harness</code> row in the estate table of <code>~/Documents/projects/CLAUDE.md</code>; skill copied to <code>docker/workspace/.agents/skills/purple-setup</code> (9 files, listed from inside the container).</li>
+</ul>
+
+<h2>How it was verified</h2>
+<table>
+<tr><th>check</th><th>exit</th><th>secs</th><th>on</th></tr>
+<tr><td>typecheck (<code>docker compose config -q</code>)</td><td>0</td><td>1</td><td>8076c040a6</td></tr>
+<tr><td>build (<code>docker compose build</code>)</td><td>0</td><td>571</td><td>8076c040a6</td></tr>
+</table>
+<p>Other evidence: container <code>sin-harness-dsh-1</code> running; UI answered 401 without a token earlier today; <code>ls /workspace/.agents/skills/purple-setup/phases</code> inside the container lists all 8 phase files. Not verified: upstream DSH typecheck and tests (no host node_modules; they run in the image build); the tailnet link (not served yet); no model has run the skill.</p>
+
+<h2>What's left</h2>
+<ul><li>t:ph01 tailnet serve (Wes). t:ph02 run phase 0 in Purple. Then phases 1-7. The "Unable to create default workspace" banner seen at 16:16 was being fixed; recheck it in the UI.</li></ul>
+
+<h2>Cleanup</h2>
+<ul><li>Nothing to clean: container <code>sin-harness-dsh-1</code> is meant to keep running (it is Purple). Branch <code>debrief/purple-setup</code> after landing; <code>sin/docker</code> is the same work minus the last commit and can go too.</li></ul>
+
+<h2>Risks for the merge</h2>
+<ul><li>This is a fork of an active upstream; master is upstream's. The three commits touch only new files. New project.json makes Sin's sweeps and workers see the repo; checkup tests and model are off.</li></ul>
+</body>
+</html>
